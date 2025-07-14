@@ -19,9 +19,6 @@
     <p class="subtext"><i class="fas fa-search-location"></i> Plan. Book. Explore.</p>
   </header>
 
-
-
-
   <!--sidebar menu-->
   <div class="sidebar">
     <button class="sidebarbtn ">☰</button>
@@ -57,7 +54,7 @@
             </div>
           </div>
           <div class="row">
-            <span>Youth (12–15)</span>
+            <span>Youth (12–15) </span>
             <div class="counter">
               <button onclick="decrease('youth')">−</button>
               <span id="youth-count">0</span>
@@ -170,6 +167,7 @@
       <div class="content-group">
         <input type="text" id="Departure-date" name="Departure-date" placeholder="Departure date">
         <input type="text" id="Return-date" name="Return-date" placeholder="Return date">
+        <div id="dates-error" class="error-msg"></div>
       </div>
 
       <!-- Search button -->

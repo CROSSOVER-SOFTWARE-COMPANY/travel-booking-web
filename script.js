@@ -74,10 +74,20 @@ function updateButtonText() {
     span.textContent = `${total}`;
   }
 }
-
+//closing the passenger's dropdown by clicking on close or outside of the menu
 function closeDropdown() {
-  document.getElementById("passenger-content").style.display = "none";
+  document.getElementById("passenger-content").classList.remove('show');
 }
+
+document.addEventListener('click', function (e) {
+  const dropdown = document.getElementById('passenger-content');
+  const button = document.querySelector('.passengers-dropdown .top-btn');
+
+  if (!dropdown.contains(e.target) && !button.contains(e.target)) {
+    dropdown.classList.remove('show');
+  }
+});
+
 
 updateButtonText();
 
@@ -220,14 +230,12 @@ function selectTrip(type) {
   }
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  initLitepicker(false); // Default: round-trip
-    // Set the default selected circle
-  document.getElementById('circle-roundtrip').classList.add('selected');
-  document.getElementById('circle-oneway').classList.remove('selected');
- });
-
-
+  window.addEventListener('DOMContentLoaded', () => {
+    initLitepicker(false); // Default: round-trip
+    document.getElementById('circle-roundtrip').classList.add('selected');
+    document.getElementById('trip-button').innerText = 'Round-trip'; 
+  });
+  
 // --- Google Places Autocomplete ---
 function initAutocomplete() {
   const departureInput = document.getElementById('departure');
@@ -374,38 +382,58 @@ function getEstimatedDistance(from, to, callback) {
 document.getElementById('search-btn').addEventListener('click', function (e) {
   e.preventDefault();
 
-  // Clear previous error styles/messages
-  ['departure', 'destination'].forEach(id => {
-    const input = document.getElementById(id);
-    const errorElement = document.getElementById(`${id}-error`);
-    if (input) input.classList.remove('error');
-    if (errorElement) errorElement.style.display = 'none';
-  });
-
-  const departure = document.getElementById('departure').value.trim();
-  const destination = document.getElementById('destination').value.trim();
-  const tripType = document.getElementById('trip-button').innerText;
-
   let hasError = false;
 
+  // Clear previous errors
+  ['departure', 'destination'].forEach(id => {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById(`${id}-error`).style.display = 'none';
+  });
+
+  // Get values
+  const departure = document.getElementById('departure').value.trim();
+  const destination = document.getElementById('destination').value.trim();
+  const departureDate = document.getElementById('Departure-date').value.trim();
+  const returnDate = document.getElementById('Return-date').value.trim();
+  const tripType = document.getElementById('trip-button').innerText;
+
+  // Validate departure
   if (!departure) {
     const input = document.getElementById('departure');
-    const error = document.getElementById('departure-error');
-    if (input) input.classList.add('error');
-    if (error) error.style.display = 'block';
+    input.classList.add('error');
+    document.getElementById('departure-error').style.display = 'block';
     hasError = true;
   }
-  
+
+  // Validate destination
   if (!destination) {
     const input = document.getElementById('destination');
-    const error = document.getElementById('destination-error');
-    if (input) input.classList.add('error');
-    if (error) error.style.display = 'block';
+    input.classList.add('error');
+    document.getElementById('destination-error').style.display = 'block';
+    hasError = true;
+  }
+
+  const dateError = document.getElementById('dates-error');
+  dateError.style.display = 'none';
+  dateError.textContent = '';
+  
+  if ((tripType === 'One-way' && !departureDate) ||
+      (tripType === 'Round-trip' && (!departureDate || !returnDate))) {
+    
+    if (tripType === 'Round-trip' && !departureDate && !returnDate) {
+      dateError.textContent = "Please enter both departure and return dates.";
+    } else if (!departureDate) {
+      dateError.textContent = "Please enter a departure date.";
+    } else if (tripType === 'Round-trip' && !returnDate) {
+      dateError.textContent = "Please enter a return date.";
+    }
+  
+    dateError.style.display = 'block';
     hasError = true;
   }
   
-
   if (hasError) return;
+  
 
   const transportTypes = ['Motorbikes', 'Vans', 'Cars', 'Trains', 'Buses'];
   let selectedTransport = '';
@@ -426,10 +454,10 @@ document.getElementById('search-btn').addEventListener('click', function (e) {
     };
 
     const passengerMultipliers = {
-      adult: 3,
-      youth: 2,
-      child: 1,
-      infant: 0.5
+      adult: 2,
+      youth: 1,
+      child: 0.5,
+      infant: 0.3
     };
 
     let totalPrice = 0;

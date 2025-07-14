@@ -145,7 +145,6 @@ button i {
   color: #ffffff;
   cursor: pointer;
   font-weight: bold;
-  transition: 0.5s ease;
 }
 
 .top-btn:hover {
@@ -191,7 +190,7 @@ button i {
   opacity: 0;
   transform: translateY(-10px);
   pointer-events: none;
-  transition: all 0.4s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .transportation-dropdown.active,
@@ -502,6 +501,9 @@ input::placeholder {
 }
 
 #summary-card {
+  position: absolute;
+  transform: translateX(30%);
+  transform: translatey(30%);
   display: none; /* hidden by default */
   background: rgb(255, 255, 255); /* or use white or any color you like */
   padding: 30px 40px;
@@ -510,7 +512,6 @@ input::placeholder {
   text-align: center;
   width: 90%;
   max-width: 500px;
-  margin: 40px auto;
   animation: fadeIn 0.5s ease-in-out;
   transition: margin-left 0.8s ease, width 0.8s ease;
 }
@@ -720,10 +721,11 @@ body.sidebar-open #summary-card {
 
 @media (max-width: 768px) {
   body.sidebar-open #summary-card {
-    margin-left: 0;
-    width: 95%;
+    margin-left: 125px;
+    width: calc(100% - 140px); /* avoid overflow */
   }
 }
+
 
 
 
