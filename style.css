@@ -617,12 +617,20 @@ body.sidebar-open #summary-card {
 }
 
 #confirm-final-btn {
-  background-color: #28a745;
+  background: linear-gradient(
+    to right, 
+    rgba(249, 96, 40, 1),   
+    #dd00ff
+  );
   color: white;
 }
 
 #confirm-final-btn:hover {
-  background-color: #218838;
+  background: linear-gradient(
+    to right, 
+    #dd00ff,
+    rgba(249, 96, 40, 1), 
+  );
 }
 #back-btn {
   background-color: #ccc;
@@ -724,6 +732,29 @@ body.sidebar-open #summary-card {
     margin-left: 125px;
     width: calc(100% - 140px); /* avoid overflow */
   }
+}
+.success-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  color: rgb(249, 96, 40);
+  padding: 20px 40px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  z-index: 1000;
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.success-popup.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 

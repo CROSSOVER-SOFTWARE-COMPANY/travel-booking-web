@@ -515,5 +515,20 @@ document.getElementById('confirm-back-btn').addEventListener('click', () => {
 });
 
 document.getElementById('confirm-final-btn').addEventListener('click', () => {
-  alert('Trip confirmed and submitted!');
+  // Show confetti
+  confetti({
+    particleCount: 100,
+    spread: 70,
+    origin: { y: 0.6 }
+  });
+
+  // Show the success message
+  const message = document.getElementById('success-message');
+  message.classList.add('show');
+
+  // Hide it after 3 seconds (optional)
+  setTimeout(() => {
+    message.classList.remove('show');
+  }, 3000);
 });
+
