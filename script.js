@@ -1,40 +1,43 @@
 // --- MAP INPUT LOGIC (NEW) ---
-function enableMapInput(type) {
-  const mapDiv = document.getElementById(`map-${type}`);
-  mapDiv.style.display = 'block';
-
-  if (!window.google || !google.maps) return;
-
-  if (!window.mapInstances) window.mapInstances = {};
-  if (!window.geocoder) window.geocoder = new google.maps.Geocoder();
-
-  if (!window.mapInstances[type]) {
-    const map = new google.maps.Map(mapDiv, {
-      center: { lat: 43.6532, lng: -79.3832 }, // Default to Toronto
-      zoom: 6
-    });
-
-    const marker = new google.maps.Marker({ map });
-
-    map.addListener('click', (event) => {
-      marker.setPosition(event.latLng);
-
-      window.geocoder.geocode({ location: event.latLng }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          const cityInput = document.getElementById(type);
-          cityInput.value = results[0].formatted_address;
-        }
+/*
+  //===== Line 261 contains the more complete version of the following code: =====///
+  function enableMapInput(type) {
+    const mapDiv = document.getElementById(`map-${type}`);
+    mapDiv.style.display = 'block';
+  
+    if (!window.google || !google.maps) return;
+  
+    if (!window.mapInstances) window.mapInstances = {};
+    if (!window.geocoder) window.geocoder = new google.maps.Geocoder();
+  
+    if (!window.mapInstances[type]) {
+      const map = new google.maps.Map(mapDiv, {
+        center: { lat: 43.6532, lng: -79.3832 }, // Default to Toronto
+        zoom: 6
       });
-    });
-
-    window.mapInstances[type] = map;
+  
+      const marker = new google.maps.Marker({ map });
+  
+      map.addListener('click', (event) => {
+        marker.setPosition(event.latLng);
+  
+        window.geocoder.geocode({ location: event.latLng }, (results, status) => {
+          if (status === 'OK' && results[0]) {
+            const cityInput = document.getElementById(type);
+            cityInput.value = results[0].formatted_address;
+          }
+        });
+      });
+  
+      window.mapInstances[type] = map;
+    }
+  
+    // Resize map after showing
+    setTimeout(() => {
+      google.maps.event.trigger(window.mapInstances[type], 'resize');
+    }, 100);
   }
-
-  // Resize map after showing
-  setTimeout(() => {
-    google.maps.event.trigger(window.mapInstances[type], 'resize');
-  }, 100);
-}
+*/
 
 // --- Passenger Dropdown Logic ---
 const counts = {
